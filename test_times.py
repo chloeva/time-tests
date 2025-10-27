@@ -1,5 +1,10 @@
+import pytest
 from times import compute_overlap_time, time_range
 
+def test_time_range_backwards_error():
+    with pytest.raises(ValueError, match="end_time .*must be after start_time"):
+        time_range("2025-10-27 12:00:00", "2025-10-27 10:00:00")
+        
 def test_generic_case():
     large = time_range("2010-01-12 10:00:00", "2010-01-12 12:00:00")
     short = time_range("2010-01-12 10:30:00", "2010-01-12 10:45:00", 2, 60)
@@ -37,4 +42,3 @@ def test_adjacent_intervals_no_overlap():
 
     # Expect no overlap, since 11:00:00 is the exact transition point.
     assert overlaps == []
-
